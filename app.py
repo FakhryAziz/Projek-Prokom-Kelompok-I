@@ -184,6 +184,47 @@ def admin_update():
 def api_status():
     data = load_data()
     return jsonify(data['spbu'])
+@app.route('/register', methods=['GET', 'POST'])
+def register():
+
+    if request.method == 'POST':
+        username = request.form.get('username', '').strip()
+        password = request.form.get('password', '').strip()
+        nama = request.form.get('nama', '').strip()
+
+        data = load_data()
+        for user in data['users']:
+            if user['username'] == username:
+                flash('Username sudah digunakan!', 'error')
+                return redirect(url_for('register'))
+
+        new_user = {
+            "id": max([u['id'] for u in data['users']], default=0) + 1,
+            "username": username,
+            "password": password,
+            "role": "user",
+            "nama": nama
+        }
+
+        data['users'].append(new_user)
+        save_data(data)
+
+        flash('Registrasi berhasil, silakan login!', 'success')
+        return redirect(url_for('login'))
+
+    return render_template('register.html')
+
+@app.route('/guest')
+def guest_login():
+
+    session['user'] = {
+        'id': 0,
+        'username': 'guest',
+        'nama': 'Tamu',
+        'role': 'guest'
+
+    flash('⚠️ Anda sedang masuk sebagai tamu', 'info')
+    return redirect(url_for('dashboard'))
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=int(os.environ.get('PORT', 5000)), debug=False)
