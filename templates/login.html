@@ -141,9 +141,9 @@
     border: none;
     border-radius: 12px;
     color: #fff;
-    font-family: 'Bebas Neue', sans-serif;
+    font-family: 'BM Sans', sans-serif;
     font-size: 20px;
-    letter-spacing: 2px;
+    letter-spacing: 1px;
     cursor: pointer;
     transition: opacity .2s, transform .15s;
     margin-top: 8px;
@@ -167,6 +167,25 @@
   .badge-admin { background: rgba(230,57,70,.2); color: var(--fuel-red); }
   .badge-user  { background: rgba(244,162,97,.2); color: var(--fuel-orange); }
   .hint-cred { color: #666; font-family: monospace; font-size: 12px; }
+
+  .guest-btn{
+    display:block !important;
+    width:100%;
+    text-align:center;
+    margin-top:12px;
+    padding:15px;
+    border-radius:12px;
+    text-decoration:none;
+    background:#1B2838;
+    border:1px solid #3a4f68;
+    color:#E8F4FD !important;
+    font-weight:600;
+    transition:.3s;
+}
+
+.guest-btn:hover{
+    background:#24384d;
+}
 </style>
 </head>
 <body>
@@ -202,7 +221,20 @@
       <input type="password" name="password" placeholder="Masukkan password" required>
     </div>
     <button class="btn" type="submit">MASUK →</button>
-  </form>
+    
+  <a href="{{ url_for('guest_login') }}" class="guest-btn">
+    MASUK SEBAGAI TAMU
+</a>
+     </form>
+<p style="text-align:center;margin-top:20px;color:white;">
+    Belum punya akun?
+    <a href="{{ url_for('register') }}" style="color:#4FC3F7;">
+        Daftar
+    </a>
+</p>
+    </div>
+
+</div>
 
 <script>
   // generate falling drops
