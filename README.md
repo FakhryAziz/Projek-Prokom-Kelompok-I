@@ -1,6 +1,6 @@
 # SPBU Info
 
-Aplikasi Flask sederhana untuk memantau ketersediaan BBM di beberapa SPBU.
+Tugas Projek Pemrograman Komputer.
 
 ## Menjalankan lokal
 
@@ -8,5 +8,6 @@ Aplikasi Flask sederhana untuk memantau ketersediaan BBM di beberapa SPBU.
 python app.py
 ```
 
+```bash
 Akses di https://spbu-tembalang.up.railway.app/dashboard
-
+```
