@@ -1,4 +1,4 @@
-# SPBU App
+# SPBU Info
 
 Aplikasi Flask sederhana untuk memantau ketersediaan BBM di beberapa SPBU.
 
