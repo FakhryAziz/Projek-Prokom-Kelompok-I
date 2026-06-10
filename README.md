@@ -1,6 +1,6 @@
 # SPBU INFO
 
-Tugas Projek Pemrograman Komputer Tentang Pengaplikasian Ketersediaan BBM di sekitar Universitas Diponegoro
+Tugas Projek Pemrograman Komputer Tentang Pembuatan Aplikasi Ketersediaan BBM di sekitar Universitas Diponegoro
 Kelompok I
 
 Aryen Jherzie Octobaryc Satyapratama (21110125140181)
