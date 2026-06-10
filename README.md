@@ -1,6 +1,7 @@
 # SPBU Info
 
-Tugas Projek Pemrograman Komputer.
+Tugas Projek Pemrograman Komputer Tentang Pengaplikasian Ketersediaan BBM di sekitar Universitas Diponegoro
+Kelompok I
 
 ## Menjalankan lokal
 
