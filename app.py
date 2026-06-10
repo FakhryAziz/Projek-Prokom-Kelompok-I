@@ -184,6 +184,7 @@ def admin_update():
 def api_status():
     data = load_data()
     return jsonify(data['spbu'])
+    
 @app.route('/register', methods=['GET', 'POST'])
 def register():
 
@@ -222,6 +223,7 @@ def guest_login():
         'username': 'guest',
         'nama': 'Tamu',
         'role': 'guest'
+    }
 
     flash('⚠️ Anda sedang masuk sebagai tamu', 'info')
     return redirect(url_for('dashboard'))
