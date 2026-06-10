@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SPBU INFO - Registrasi</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+:root{
+    --primary:#1A73E8;
+    --secondary:#4FC3F7;
+    --dark:#08111f;
+    --card:rgba(15,23,42,.8);
+    --text:#fff;
+}
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Poppins',sans-serif;
+}
+
+body{
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background:
+      radial-gradient(circle at top left,#1A73E855,transparent 35%),
+      radial-gradient(circle at bottom right,#4FC3F755,transparent 35%),
+      #08111f;
+}
+
+.card{
+    width:100%;
+    max-width:450px;
+    padding:40px;
+    border-radius:24px;
+    background:rgba(15,23,42,.75);
+    backdrop-filter:blur(20px);
+    border:1px solid rgba(255,255,255,.08);
+    box-shadow:0 20px 60px rgba(0,0,0,.5);
+}
+
+.logo{
+    text-align:center;
+    font-size:50px;
+    margin-bottom:10px;
+}
+
+h1{
+    color:white;
+    text-align:center;
+    margin-bottom:8px;
+}
+
+.subtitle{
+    text-align:center;
+    color:#9fb3c8;
+    margin-bottom:30px;
+    font-size:14px;
+}
+
+.field{
+    margin-bottom:18px;
+}
+
+.field label{
+    display:block;
+    color:#cbd5e1;
+    margin-bottom:8px;
+    font-size:13px;
+}
+
+.input-box{
+    background:#111c2e;
+    border:1px solid #243349;
+    border-radius:14px;
+    padding:14px 16px;
+}
+
+.input-box input{
+    width:100%;
+    border:none;
+    outline:none;
+    background:none;
+    color:white;
+    font-size:15px;
+}
+
+.input-box:focus-within{
+    border-color:#4FC3F7;
+    box-shadow:0 0 0 4px rgba(79,195,247,.15);
+}
+
+.btn{
+    width:100%;
+    border:none;
+    padding:15px;
+    border-radius:14px;
+    background:linear-gradient(
+        135deg,
+        #1A73E8,
+        #4FC3F7
+    );
+    color:white;
+    font-size:16px;
+    font-weight:600;
+    cursor:pointer;
+    transition:.3s;
+}
+
+.btn:hover{
+    transform:translateY(-2px);
+}
+
+.login-link{
+    text-align:center;
+    margin-top:20px;
+    color:#94a3b8;
+}
+
+.login-link a{
+    color:#38bdf8;
+    text-decoration:none;
+    font-weight:600;
+    transition:.3s;
+}
+
+.login-link a:hover{
+    color:#7dd3fc;
+    text-shadow:0 0 10px rgba(56,189,248,.5);
+}
+
+.flash{
+    background:#16263f;
+    color:white;
+    padding:12px;
+    border-radius:12px;
+    margin-bottom:20px;
+}
+</style>
+</head>
+<body>
+
+<div class="card">
+
+    <div class="logo">⛽</div>
+
+    <h1>Buat Akun</h1>
+    <p class="subtitle">
+        Registrasi pengguna baru SPBU INFO
+    </p>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% for cat,msg in messages %}
+            <div class="flash">{{ msg }}</div>
+        {% endfor %}
+    {% endwith %}
+
+    <form method="POST">
+
+        <div class="field">
+            <label>Nama Lengkap</label>
+            <div class="input-box">
+                <input type="text" name="nama" required>
+            </div>
+        </div>
+
+        <div class="field">
+            <label>Username</label>
+            <div class="input-box">
+                <input type="text" name="username" required>
+            </div>
+        </div>
+
+        <div class="field">
+            <label>Password</label>
+            <div class="input-box">
+                <input type="password" name="password" required>
+            </div>
+        </div>
+
+        <button class="btn" type="submit">
+            DAFTAR AKUN
+        </button>
+
+    </form>
+
+    <div class="login-link">
+        Sudah punya akun?
+        <a href="{{ url_for('login') }}">
+            Login
+        </a>
+    </div>
+
+</div>
+
+</body>
+</html>
