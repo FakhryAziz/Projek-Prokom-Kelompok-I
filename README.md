@@ -1,4 +1,4 @@
-# SPBU Info
+# SPBU INFO
 
 Tugas Projek Pemrograman Komputer Tentang Pengaplikasian Ketersediaan BBM di sekitar Universitas Diponegoro
 Kelompok I
