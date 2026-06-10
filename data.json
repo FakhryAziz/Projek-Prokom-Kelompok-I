@@ -1,0 +1,183 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "username": "admin",
+      "password": "admin123",
+      "role": "admin",
+      "nama": "Administrator"
+    },
+    {
+      "id": 2,
+      "username": "user1",
+      "password": "user123",
+      "role": "user",
+      "nama": "Budi Santoso"
+    },
+    {
+      "id": 3,
+      "username": "user2",
+      "password": "user456",
+      "role": "user",
+      "nama": "Siti Rahayu"
+    }
+  ],
+  "spbu": [
+    {
+      "id": 1,
+      "nama": "SPBU POM Bensin Gombel",
+      "alamat": "Jl. Setiabudi No. 65, Gombel, Semarang Selatan",
+      "maps_url": "https://maps.google.com/?q=SPBU+Gombel+Jl+Setiabudi+Semarang",
+      "lat": -7.0509,
+      "lng": 110.4116,
+      "bbm": {
+        "pertalite": {
+          "tersedia": true,
+          "stok": "Habis",
+          "updated": "15:18"
+        },
+        "pertamax": {
+          "tersedia": true,
+          "stok": "Habis",
+          "updated": "15:18"
+        },
+        "solar": {
+          "tersedia": true,
+          "stok": "Penuh",
+          "updated": "07:00"
+        }
+      }
+    },
+    {
+      "id": 2,
+      "nama": "SPBU Pertamina Sumurboto",
+      "alamat": "Jl. Ngesrep Timur V No. 18, Sumurboto, Banyumanik",
+      "maps_url": "https://maps.google.com/?q=SPBU+Pertamina+Sumurboto+Semarang",
+      "lat": -7.0561,
+      "lng": 110.4279,
+      "bbm": {
+        "pertalite": {
+          "tersedia": true,
+          "stok": "Sedang",
+          "updated": "07:00"
+        },
+        "pertamax": {
+          "tersedia": true,
+          "stok": "Penuh",
+          "updated": "07:00"
+        },
+        "solar": {
+          "tersedia": true,
+          "stok": "Habis",
+          "updated": "15:18"
+        }
+      }
+    },
+    {
+      "id": 3,
+      "nama": "SPBU Pertamina Gas Station UNDIP",
+      "alamat": "Jl. Prof. Sudarto, Tembalang, Kec. Tembalang, Semarang",
+      "maps_url": "https://maps.google.com/?q=SPBU+Pertamina+UNDIP+Tembalang+Semarang",
+      "lat": -7.0498,
+      "lng": 110.4382,
+      "bbm": {
+        "pertalite": {
+          "tersedia": true,
+          "stok": "Penuh",
+          "updated": "07:00"
+        },
+        "pertamax": {
+          "tersedia": true,
+          "stok": "Habis",
+          "updated": "15:19"
+        },
+        "solar": {
+          "tersedia": true,
+          "stok": "Sedikit",
+          "updated": "07:00"
+        }
+      }
+    },
+    {
+      "id": 4,
+      "nama": "SPBU Pertamina Mulawarman",
+      "alamat": "Jl. Mulawarman Raya, Mangunharjo, Tembalang, Semarang",
+      "maps_url": "https://maps.google.com/?q=SPBU+Pertamina+Mulawarman+Tembalang+Semarang",
+      "lat": -7.0435,
+      "lng": 110.445,
+      "bbm": {
+        "pertalite": {
+          "tersedia": true,
+          "stok": "Penuh",
+          "updated": "07:00"
+        },
+        "pertamax": {
+          "tersedia": true,
+          "stok": "Sedikit",
+          "updated": "07:00"
+        },
+        "solar": {
+          "tersedia": true,
+          "stok": "Sedang",
+          "updated": "07:00"
+        }
+      }
+    }
+  ],
+  "riwayat": [
+    {
+      "waktu": "18/05/2026 15:19",
+      "admin": "Administrator",
+      "spbu": "SPBU Pertamina Gas Station UNDIP",
+      "bbm": "Pertamax",
+      "dari": "Tidak Tersedia",
+      "ke": "Tersedia",
+      "stok": "Habis"
+    },
+    {
+      "waktu": "18/05/2026 15:18",
+      "admin": "Administrator",
+      "spbu": "SPBU Pertamina Sumurboto",
+      "bbm": "Solar",
+      "dari": "Tidak Tersedia",
+      "ke": "Tersedia",
+      "stok": "Habis"
+    },
+    {
+      "waktu": "18/05/2026 15:18",
+      "admin": "Administrator",
+      "spbu": "SPBU POM Bensin Gombel",
+      "bbm": "Pertamax",
+      "dari": "Tidak Tersedia",
+      "ke": "Tersedia",
+      "stok": "Habis"
+    },
+    {
+      "waktu": "18/05/2026 15:18",
+      "admin": "Administrator",
+      "spbu": "SPBU POM Bensin Gombel",
+      "bbm": "Pertalite",
+      "dari": "Tidak Tersedia",
+      "ke": "Tersedia",
+      "stok": "Habis"
+    },
+    {
+      "waktu": "18/05/2026 15:13",
+      "admin": "Administrator",
+      "spbu": "SPBU POM Bensin Gombel",
+      "bbm": "Pertamax",
+      "dari": "Tersedia",
+      "ke": "Tidak Tersedia",
+      "stok": "Habis"
+    },
+    {
+      "waktu": "18/05/2026 15:13",
+      "admin": "Administrator",
+      "spbu": "SPBU POM Bensin Gombel",
+      "bbm": "Pertalite",
+      "dari": "Tersedia",
+      "ke": "Tidak Tersedia",
+      "stok": "Penuh"
+    }
+  ]
+}

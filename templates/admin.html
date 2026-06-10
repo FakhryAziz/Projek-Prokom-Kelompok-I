@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SPBU Info — Admin Panel</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --red:    #E63946;
+    --orange: #F4A261;
+    --yellow: #E9C46A;
+    --green:  #2DC77A;
+    --dark:   #0D0D0D;
+    --dark2:  #141414;
+    --dark3:  #1C1C1C;
+    --dark4:  #252525;
+    --light:  #F5F0E8;
+    --muted:  #666;
+    --border: #2A2A2A;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { background:var(--dark); font-family:'DM Sans',sans-serif; color:var(--light); min-height:100vh; }
+
+  /* NAV */
+  nav {
+    position:sticky; top:0; z-index:100;
+    background:rgba(13,13,13,.92); backdrop-filter:blur(16px);
+    border-bottom:1px solid var(--border);
+    padding:0 32px; height:64px;
+    display:flex; align-items:center; justify-content:space-between;
+  }
+  .nav-brand { display:flex; align-items:center; gap:10px; }
+  .nav-title { font-family:'Bebas Neue',sans-serif; font-size:24px; letter-spacing:2px; }
+  .nav-right  { display:flex; align-items:center; gap:12px; }
+  .badge-admin { font-size:11px;font-weight:700;padding:3px 10px;border-radius:20px; background:rgba(230,57,70,.2);color:var(--red); }
+  .btn-nav { padding:8px 18px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;transition:.15s;text-decoration:none;border:none;display:inline-block; }
+  .btn-back   { background:var(--dark4);color:var(--muted);border:1px solid var(--border); }
+  .btn-back:hover { color:var(--orange); border-color:var(--orange); }
+  .btn-logout { background:transparent;color:var(--muted);border:1px solid var(--border); }
+  .btn-logout:hover { color:var(--red); border-color:var(--red); }
+
+  /* HEADER */
+  .header {
+    padding:40px 32px 28px;
+    border-bottom:1px solid var(--border);
+    background: linear-gradient(180deg, rgba(230,57,70,.05) 0%, transparent 100%);
+  }
+  .header-tag { font-size:12px;font-weight:600;color:var(--red);letter-spacing:2px;text-transform:uppercase;margin-bottom:8px; }
+  .header h1  { font-family:'Bebas Neue',sans-serif;font-size:48px;letter-spacing:1px;line-height:1; }
+  .header p   { color:var(--muted);font-size:14px;margin-top:6px; }
+
+  /* FLASH */
+  .flash-wrap { padding:16px 32px 0; }
+  .flash-msg  { padding:12px 18px;border-radius:10px;font-size:13px;font-weight:500; }
+  .flash-error   { background:rgba(230,57,70,.12);color:#ff6b7a;border:1px solid rgba(230,57,70,.25); }
+  .flash-success { background:rgba(45,199,122,.12);color:#5cc87a;border:1px solid rgba(45,199,122,.25); }
+
+  /* CONTENT */
+  .content { padding:32px; display:grid; grid-template-columns:1fr 380px; gap:24px; align-items:start; }
+
+  /* SPBU CARDS */
+  .spbu-section {}
+  .sec-label { font-size:12px;font-weight:600;color:var(--muted);letter-spacing:2px;text-transform:uppercase;margin-bottom:16px; }
+
+  .spbu-card {
+    background:var(--dark3); border:1px solid var(--border); border-radius:18px;
+    margin-bottom:16px; overflow:hidden;
+    transition:border-color .2s;
+  }
+  .spbu-card:hover { border-color:#3a3a3a; }
+
+  .spbu-head {
+    padding:18px 22px 14px;
+    border-bottom:1px solid var(--border);
+    display:flex; align-items:center; gap:12px;
+  }
+  .spbu-icon {
+    width:40px;height:40px;border-radius:10px;flex-shrink:0;
+    background:linear-gradient(135deg,var(--red),var(--orange));
+    display:flex;align-items:center;justify-content:center;font-size:18px;
+  }
+  .spbu-nama { font-family:'Bebas Neue',sans-serif;font-size:18px;letter-spacing:.5px; }
+  .spbu-addr { font-size:12px;color:var(--muted);margin-top:1px; }
+
+  .maps-btn {
+    display: inline-flex; align-items: center; gap: 5px;
+    margin-top: 6px;
+    padding: 3px 10px 3px 7px;
+    background: rgba(66,133,244,.12);
+    border: 1px solid rgba(66,133,244,.25);
+    border-radius: 20px;
+    color: #6fa8f5;
+    font-size: 11px; font-weight: 600;
+    text-decoration: none; letter-spacing: .3px;
+    transition: background .15s, border-color .15s, color .15s;
+    width: fit-content;
+  }
+  .maps-btn:hover { background:rgba(66,133,244,.22); border-color:rgba(66,133,244,.5); color:#93c0ff; }
+  .maps-btn svg { flex-shrink:0; }
+
+  .bbm-rows { padding:14px 22px 18px;display:flex;flex-direction:column;gap:10px; }
+
+  .bbm-row {
+    display:grid; grid-template-columns:20px 1fr auto auto auto;
+    align-items:center; gap:12px;
+    background:var(--dark4); border-radius:12px; padding:14px 16px;
+    border:1px solid var(--border);
+  }
+  .bbm-icon   { font-size:16px; }
+  .bbm-label  { font-weight:600;font-size:14px; }
+  .bbm-stok   { font-size:12px;color:var(--muted); }
+
+  .toggle-btn {
+    padding:7px 14px; border-radius:8px; font-size:12px; font-weight:700;
+    cursor:pointer; border:none; transition:.15s; letter-spacing:.3px;
+  }
+  .toggle-on  { background:rgba(45,199,122,.15);color:var(--green);border:1px solid rgba(45,199,122,.3); }
+  .toggle-off { background:rgba(230,57,70,.15); color:var(--red);  border:1px solid rgba(230,57,70,.3); }
+  .toggle-btn:hover { transform:scale(1.04); }
+
+  /* MODAL OVERLAY */
+  .overlay {
+    display:none; position:fixed; inset:0; z-index:200;
+    background:rgba(0,0,0,.7); backdrop-filter:blur(4px);
+    align-items:center; justify-content:center;
+  }
+  .overlay.active { display:flex; }
+
+  .modal {
+    background:var(--dark3); border:1px solid #333; border-radius:20px;
+    padding:32px; width:100%; max-width:400px;
+    box-shadow:0 30px 60px rgba(0,0,0,.5);
+    animation:slideUp .25s ease;
+  }
+  @keyframes slideUp { from{transform:translateY(20px);opacity:0} to{transform:translateY(0);opacity:1} }
+
+  .modal h2 { font-family:'Bebas Neue',sans-serif;font-size:28px;letter-spacing:1px;margin-bottom:4px; }
+  .modal-sub { font-size:13px;color:var(--muted);margin-bottom:24px; }
+
+  .form-field { margin-bottom:18px; }
+  .form-field label { display:block;font-size:12px;font-weight:600;color:var(--muted);letter-spacing:1px;text-transform:uppercase;margin-bottom:8px; }
+  select {
+    width:100%; background:var(--dark4); border:1px solid #333;
+    border-radius:10px; padding:13px 14px; color:var(--light);
+    font-family:'DM Sans',sans-serif;font-size:14px;outline:none;cursor:pointer;
+    transition:border-color .2s;
+    appearance:none;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23666' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+    background-repeat:no-repeat; background-position:right 14px center;
+  }
+  select:focus { border-color:var(--orange); }
+  select option { background:var(--dark4); }
+
+  .modal-btns { display:flex; gap:10px; margin-top:24px; }
+  .btn-confirm {
+    flex:1; padding:14px; border-radius:12px;
+    background:linear-gradient(135deg,var(--red),var(--orange));
+    color:#fff; font-family:'Bebas Neue',sans-serif;
+    font-size:18px; letter-spacing:1px; border:none; cursor:pointer;
+    transition:opacity .15s;
+  }
+  .btn-confirm:hover { opacity:.85; }
+  .btn-cancel {
+    padding:14px 20px; border-radius:12px;
+    background:var(--dark4); color:var(--muted);
+    border:1px solid var(--border); cursor:pointer; font-size:14px;
+    transition:.15s;
+  }
+  .btn-cancel:hover { color:var(--light); }
+
+  /* SIDEBAR */
+  .sidebar {}
+  .riwayat-card {
+    background:var(--dark3); border:1px solid var(--border); border-radius:18px;
+    overflow:hidden; position:sticky; top:80px;
+  }
+  .riwayat-head {
+    padding:18px 22px; border-bottom:1px solid var(--border);
+    font-family:'Bebas Neue',sans-serif;font-size:20px;letter-spacing:1px;
+    display:flex;align-items:center;gap:10px;
+  }
+  .riwayat-list { max-height:520px; overflow-y:auto; }
+  .riwayat-list::-webkit-scrollbar { width:4px; }
+  .riwayat-list::-webkit-scrollbar-track { background:transparent; }
+  .riwayat-list::-webkit-scrollbar-thumb { background:#333; border-radius:2px; }
+
+  .riwayat-item {
+    padding:14px 20px; border-bottom:1px solid var(--border);
+    transition:background .15s;
+  }
+  .riwayat-item:hover { background:var(--dark4); }
+  .riwayat-item:last-child { border-bottom:none; }
+  .rw-top   { display:flex;justify-content:space-between;align-items:center;margin-bottom:4px; }
+  .rw-spbu  { font-weight:600;font-size:13px; }
+  .rw-time  { font-size:11px;color:var(--muted); }
+  .rw-bbm   { font-size:12px;color:var(--muted); }
+  .rw-arrow { color:var(--orange); margin:0 4px; }
+  .rw-new   { font-weight:600; }
+  .rw-ok    { color:var(--green); }
+  .rw-no    { color:var(--red); }
+  .rw-admin { font-size:11px;color:#444;margin-top:4px; }
+  .empty-rw { padding:32px;text-align:center;color:var(--muted);font-size:13px; }
+
+  @media(max-width:900px){
+    .content { grid-template-columns:1fr; }
+    nav { padding:0 16px; }
+    .header { padding:28px 16px 20px; }
+    .content { padding:20px 16px; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-brand">
+    <span style="font-size:22px">⛽</span>
+    <span class="nav-title">SPBU INFO</span>
+  </div>
+  <div class="nav-right">
+    <span style="font-size:13px;color:var(--muted)"><strong style="color:var(--light)">{{ user.nama }}</strong></span>
+    <span class="badge-admin">ADMIN</span>
+    <a href="/dashboard" class="btn-nav btn-back">← Dashboard</a>
+    <a href="/logout"    class="btn-nav btn-logout">Keluar</a>
+  </div>
+</nav>
+
+{% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+  <div class="flash-wrap">
+    {% for cat, msg in messages %}
+      <div class="flash-msg flash-{{ cat }}">{{ msg }}</div>
+    {% endfor %}
+  </div>
+  {% endif %}
+{% endwith %}
+
+<div class="header">
+  <div class="header-tag">⚙ Panel Admin</div>
+  <h1>KELOLA STOK BBM</h1>
+  <p>Perbarui ketersediaan Pertalite, Pertamax, dan Solar di setiap SPBU</p>
+</div>
+
+<div class="content">
+  <!-- LEFT: SPBU list -->
+  <div class="spbu-section">
+    <div class="sec-label">Daftar SPBU — Klik tombol untuk update</div>
+
+    {% set bbm_defs = [
+      ('pertalite', '🔵', 'Pertalite'),
+      ('pertamax',  '🟡', 'Pertamax'),
+      ('solar',     '🟠', 'Solar')
+    ] %}
+
+    {% for spbu in spbu_list %}
+    <div class="spbu-card">
+      <div class="spbu-head">
+        <div class="spbu-icon">⛽</div>
+        <div>
+          <div class="spbu-nama">{{ spbu.nama }}</div>
+          <div class="spbu-addr">{{ spbu.alamat }}</div>
+          <a href="{{ spbu.maps_url }}" target="_blank" rel="noopener" class="maps-btn">
+            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/>
+            </svg>
+            Buka Google Maps
+          </a>
+        </div>
+      </div>
+      <div class="bbm-rows">
+        {% for key, icon, label in bbm_defs %}
+        {% set info = spbu.bbm[key] %}
+        <div class="bbm-row">
+          <span class="bbm-icon">{{ icon }}</span>
+          <span class="bbm-label">{{ label }}</span>
+          <span class="bbm-stok">{{ info.stok }} · {{ info.updated }}</span>
+          <button
+            class="toggle-btn {{ 'toggle-on' if info.tersedia else 'toggle-off' }}"
+            onclick="openModal({{ spbu.id }}, '{{ key }}', '{{ label }}', {{ 'true' if info.tersedia else 'false' }}, '{{ spbu.nama }}')">
+            {{ '✓ Tersedia' if info.tersedia else '✗ Habis' }}
+          </button>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+
+  <!-- RIGHT: Riwayat -->
+  <div class="sidebar">
+    <div class="riwayat-card">
+      <div class="riwayat-head">📋 Riwayat Update</div>
+      <div class="riwayat-list">
+        {% if riwayat %}
+          {% for r in riwayat %}
+          <div class="riwayat-item">
+            <div class="rw-top">
+              <span class="rw-spbu">{{ r.spbu }}</span>
+              <span class="rw-time">{{ r.waktu }}</span>
+            </div>
+            <div class="rw-bbm">
+              {{ r.bbm }} —
+              <span class="rw-new {{ 'rw-ok' if r.ke == 'Tersedia' else 'rw-no' }}">{{ r.ke }}</span>
+              · Stok: {{ r.stok }}
+            </div>
+            <div class="rw-admin">oleh {{ r.admin }}</div>
+          </div>
+          {% endfor %}
+        {% else %}
+          <div class="empty-rw">Belum ada riwayat update</div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL -->
+<div class="overlay" id="overlay" onclick="closeModal(event)">
+  <div class="modal">
+    <h2 id="modal-title">UPDATE BBM</h2>
+    <p class="modal-sub" id="modal-sub">Perbarui status ketersediaan</p>
+
+    <form method="POST" action="/admin/update">
+      <input type="hidden" name="spbu_id"   id="f-spbu-id">
+      <input type="hidden" name="jenis_bbm" id="f-jenis-bbm">
+
+      <div class="form-field">
+        <label>Status Ketersediaan</label>
+        <select name="tersedia" id="f-tersedia">
+          <option value="true">✓ Tersedia / Ada Stok</option>
+          <option value="false">✗ Tidak Tersedia / Habis</option>
+        </select>
+      </div>
+
+      <div class="form-field">
+        <label>Tingkat Stok</label>
+        <select name="stok" id="f-stok">
+          <option value="Penuh">Penuh</option>
+          <option value="Sedang">Sedang</option>
+          <option value="Sedikit">Sedikit</option>
+          <option value="Habis">Habis</option>
+        </select>
+      </div>
+
+      <div class="modal-btns">
+        <button type="button" class="btn-cancel" onclick="closeModal()">Batal</button>
+        <button type="submit" class="btn-confirm">SIMPAN →</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<script>
+  function openModal(spbuId, jenisBbm, labelBbm, tersedia, spbuNama) {
+    document.getElementById('f-spbu-id').value   = spbuId;
+    document.getElementById('f-jenis-bbm').value = jenisBbm;
+    document.getElementById('modal-title').textContent = 'UPDATE ' + labelBbm.toUpperCase();
+    document.getElementById('modal-sub').textContent   = spbuNama;
+    document.getElementById('f-tersedia').value = tersedia ? 'true' : 'false';
+    document.getElementById('f-stok').value     = tersedia ? 'Penuh' : 'Habis';
+    document.getElementById('overlay').classList.add('active');
+  }
+  function closeModal(e) {
+    if (!e || e.target === document.getElementById('overlay')) {
+      document.getElementById('overlay').classList.remove('active');
+    }
+  }
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') closeModal();
+  });
+</script>
+</body>
+</html>

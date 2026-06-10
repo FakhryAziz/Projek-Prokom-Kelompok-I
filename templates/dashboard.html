@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SPBU Info — Dashboard</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --red:    #E63946;
+    --orange: #F4A261;
+    --yellow: #E9C46A;
+    --green:  #2DC77A;
+    --dark:   #0D0D0D;
+    --dark2:  #141414;
+    --dark3:  #1C1C1C;
+    --dark4:  #252525;
+    --light:  #F5F0E8;
+    --muted:  #666;
+    --border: #2A2A2A;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { background:var(--dark); font-family:'DM Sans',sans-serif; color:var(--light); min-height:100vh; }
+
+  /* ── NAV ── */
+  nav {
+    position: sticky; top: 0; z-index: 100;
+    background: rgba(13,13,13,.92);
+    backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--border);
+    padding: 0 32px;
+    height: 64px;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .nav-brand { display:flex; align-items:center; gap:10px; }
+  .nav-icon  { font-size:22px; }
+  .nav-title { font-family:'Bebas Neue',sans-serif; font-size:24px; letter-spacing:2px; color:var(--light); }
+  .nav-right { display:flex; align-items:center; gap:16px; }
+  .nav-user  { font-size:13px; color:var(--muted); }
+  .nav-user strong { color:var(--light); }
+  .badge-role {
+    font-size:11px; font-weight:700; padding:3px 10px; border-radius:20px; letter-spacing:.5px;
+  }
+  .badge-admin { background:rgba(230,57,70,.2);  color:var(--red); }
+  .badge-user  { background:rgba(244,162,97,.2); color:var(--orange); }
+  .btn-nav {
+    padding:8px 18px; border-radius:8px; font-size:13px; font-weight:600;
+    cursor:pointer; transition:.15s; text-decoration:none; border:none; display:inline-block;
+  }
+  .btn-logout { background:var(--dark4); color:var(--muted); border:1px solid var(--border); }
+  .btn-logout:hover { color:var(--red); border-color:var(--red); }
+  .btn-admin  { background:linear-gradient(135deg,var(--red),var(--orange)); color:#fff; }
+  .btn-admin:hover { opacity:.85; }
+
+  /* ── HEADER ── */
+  .header {
+    padding: 48px 32px 32px;
+    border-bottom: 1px solid var(--border);
+    position: relative; overflow: hidden;
+  }
+  .header::before {
+    content: '⛽';
+    position: absolute; right: 32px; top: 50%; transform: translateY(-50%);
+    font-size: 120px; opacity: .04; pointer-events: none;
+  }
+  .header-tag { font-size:12px; font-weight:600; color:var(--orange); letter-spacing:2px; text-transform:uppercase; margin-bottom:10px; }
+  .header h1  { font-family:'Bebas Neue',sans-serif; font-size:52px; letter-spacing:1px; color:var(--light); line-height:1; }
+  .header p   { color:var(--muted); font-size:15px; margin-top:8px; }
+
+  .stats-row {
+    display: flex; gap: 16px; margin-top: 24px; flex-wrap: wrap;
+  }
+  .stat-chip {
+    background: var(--dark3); border:1px solid var(--border); border-radius:12px;
+    padding: 12px 20px; display:flex; align-items:center; gap:10px;
+  }
+  .stat-chip .num { font-family:'Bebas Neue',sans-serif; font-size:28px; line-height:1; }
+  .stat-chip .lbl { font-size:12px; color:var(--muted); }
+  .num-green  { color:var(--green); }
+  .num-red    { color:var(--red); }
+  .num-orange { color:var(--orange); }
+
+  /* ── FLASH ── */
+  .flash-wrap { padding:16px 32px 0; }
+  .flash-msg  { padding:12px 18px; border-radius:10px; font-size:13px; font-weight:500; }
+  .flash-error   { background:rgba(230,57,70,.12);  color:#ff6b7a; border:1px solid rgba(230,57,70,.25); }
+  .flash-success { background:rgba(45,199,122,.12); color:#5cc87a; border:1px solid rgba(45,199,122,.25); }
+  .flash-info    { background:rgba(100,160,255,.12);color:#7ab3ff; border:1px solid rgba(100,160,255,.25); }
+
+  /* ── GRID ── */
+  .content { padding: 32px; }
+  .section-label { font-size:12px; font-weight:600; color:var(--muted); letter-spacing:2px; text-transform:uppercase; margin-bottom:20px; }
+
+  .spbu-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+    gap: 20px;
+  }
+
+  .spbu-card {
+    background: var(--dark3);
+    border: 1px solid var(--border);
+    border-radius: 18px;
+    overflow: hidden;
+    transition: border-color .2s, transform .2s;
+  }
+  .spbu-card:hover { border-color: #3a3a3a; transform: translateY(-2px); }
+
+  .spbu-header {
+    padding: 20px 22px 16px;
+    border-bottom: 1px solid var(--border);
+    display: flex; align-items: flex-start; gap: 12px;
+  }
+  .spbu-icon {
+    width: 42px; height: 42px; border-radius: 12px; flex-shrink: 0;
+    background: linear-gradient(135deg,var(--red),var(--orange));
+    display:flex; align-items:center; justify-content:center; font-size:20px;
+  }
+  .spbu-nama { font-family:'Bebas Neue',sans-serif; font-size:20px; letter-spacing:.5px; color:var(--light); }
+  .spbu-alamat { font-size:12px; color:var(--muted); margin-top:2px; line-height:1.4; }
+
+  .maps-btn {
+    display: inline-flex; align-items: center; gap: 5px;
+    margin-top: 7px;
+    padding: 4px 10px 4px 8px;
+    background: rgba(66,133,244,.12);
+    border: 1px solid rgba(66,133,244,.25);
+    border-radius: 20px;
+    color: #6fa8f5;
+    font-size: 11px; font-weight: 600;
+    text-decoration: none;
+    letter-spacing: .3px;
+    transition: background .15s, border-color .15s, color .15s;
+    width: fit-content;
+  }
+  .maps-btn:hover {
+    background: rgba(66,133,244,.22);
+    border-color: rgba(66,133,244,.5);
+    color: #93c0ff;
+  }
+  .maps-btn svg { flex-shrink: 0; }
+
+  .bbm-list { padding: 16px 22px 20px; display:flex; flex-direction:column; gap:10px; }
+
+  .bbm-item {
+    display: flex; align-items: center;
+    background: var(--dark4); border-radius: 12px;
+    padding: 14px 16px; gap: 14px;
+    border: 1px solid transparent;
+    transition: border-color .2s;
+  }
+  .bbm-item.available   { border-color: rgba(45,199,122,.2); }
+  .bbm-item.unavailable { border-color: rgba(230,57,70,.12); opacity: .75; }
+
+  .bbm-dot {
+    width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0;
+  }
+  .dot-green  { background: var(--green); box-shadow: 0 0 8px var(--green); animation: pulse 2s infinite; }
+  .dot-red    { background: var(--red); }
+  @keyframes pulse {
+    0%,100% { box-shadow: 0 0 4px var(--green); }
+    50%      { box-shadow: 0 0 12px var(--green); }
+  }
+
+  .bbm-name  { font-weight:600; font-size:14px; flex:1; }
+  .bbm-stok  { font-size:12px; color:var(--muted); }
+  .bbm-time  { font-size:11px; color:#444; margin-left:auto; }
+
+  .status-pill {
+    font-size:11px; font-weight:700; padding:3px 10px; border-radius:20px; white-space:nowrap;
+  }
+  .pill-ok  { background:rgba(45,199,122,.15); color:var(--green); }
+  .pill-no  { background:rgba(230,57,70,.15);  color:var(--red); }
+
+  .bbm-icon { font-size:18px; }
+
+  /* ── LEGEND ── */
+  .legend {
+    margin-top: 32px;
+    background: var(--dark3); border:1px solid var(--border); border-radius:14px;
+    padding: 18px 22px;
+    display: flex; align-items: center; gap: 24px; flex-wrap: wrap;
+  }
+  .legend-title { font-size:12px; color:var(--muted); font-weight:600; letter-spacing:1px; text-transform:uppercase; }
+  .legend-item  { display:flex; align-items:center; gap:8px; font-size:13px; }
+
+  /* refresh */
+  .refresh-bar {
+    position: fixed; bottom: 20px; right: 24px;
+    background: var(--dark3); border:1px solid var(--border); border-radius:12px;
+    padding: 10px 18px; font-size:12px; color:var(--muted);
+    display:flex; align-items:center; gap:8px;
+  }
+  .refresh-dot { width:6px;height:6px;border-radius:50%;background:var(--green); animation:pulse 2s infinite; }
+
+  @media(max-width:600px){
+    nav { padding:0 16px; }
+    .header { padding:32px 16px 24px; }
+    .content { padding:20px 16px; }
+    .header h1 { font-size:38px; }
+    .spbu-grid { grid-template-columns:1fr; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-brand">
+    <span class="nav-icon">⛽</span>
+    <span class="nav-title">SPBU INFO</span>
+  </div>
+  <div class="nav-right">
+    <span class="nav-user">
+      Halo, <strong>{{ user.nama }}</strong>
+    </span>
+    <span class="badge-role badge-{{ user.role }}">{{ user.role.upper() }}</span>
+    {% if user.role == 'admin' %}
+      <a href="/admin/update" class="btn-nav btn-admin">⚙ Kelola BBM</a>
+    {% endif %}
+    <a href="/logout" class="btn-nav btn-logout">Keluar</a>
+  </div>
+</nav>
+
+{% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+  <div class="flash-wrap">
+    {% for cat, msg in messages %}
+      <div class="flash-msg flash-{{ cat }}">{{ msg }}</div>
+    {% endfor %}
+  </div>
+  {% endif %}
+{% endwith %}
+
+<div class="header">
+  <div class="header-tag">📍 Informasi Real-Time</div>
+  <h1>KETERSEDIAAN BBM</h1>
+  <p>Status terkini Pertalite, Pertamax, dan Solar di SPBU terdekat</p>
+
+  {% set total = spbu_list|length %}
+  {% set ada_pertalite = spbu_list | selectattr('bbm.pertalite.tersedia') | list | length %}
+  {% set ada_pertamax  = spbu_list | selectattr('bbm.pertamax.tersedia')  | list | length %}
+  {% set ada_solar     = spbu_list | selectattr('bbm.solar.tersedia')     | list | length %}
+
+  <div class="stats-row">
+    <div class="stat-chip">
+      <div>
+        <div class="num num-orange">{{ total }}</div>
+        <div class="lbl">Total SPBU</div>
+      </div>
+    </div>
+    <div class="stat-chip">
+      <div>
+        <div class="num num-green">{{ ada_pertalite }}/{{ total }}</div>
+        <div class="lbl">Pertalite Tersedia</div>
+      </div>
+    </div>
+    <div class="stat-chip">
+      <div>
+        <div class="num num-green">{{ ada_pertamax }}/{{ total }}</div>
+        <div class="lbl">Pertamax Tersedia</div>
+      </div>
+    </div>
+    <div class="stat-chip">
+      <div>
+        <div class="num num-green">{{ ada_solar }}/{{ total }}</div>
+        <div class="lbl">Solar Tersedia</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="content">
+  <div class="section-label">Daftar SPBU</div>
+
+  <div class="spbu-grid">
+    {% for spbu in spbu_list %}
+    <div class="spbu-card">
+      <div class="spbu-header">
+        <div class="spbu-icon">⛽</div>
+        <div>
+          <div class="spbu-nama">{{ spbu.nama }}</div>
+          <div class="spbu-alamat">{{ spbu.alamat }}</div>
+          <a href="{{ spbu.maps_url }}" target="_blank" rel="noopener" class="maps-btn">
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/>
+            </svg>
+            Buka Google Maps
+          </a>
+        </div>
+      </div>
+
+      <div class="bbm-list">
+        {% set bbm_items = [
+          ('pertalite', '🔵', 'Pertalite', spbu.bbm.pertalite),
+          ('pertamax',  '🟡', 'Pertamax',  spbu.bbm.pertamax),
+          ('solar',     '🟠', 'Solar',     spbu.bbm.solar)
+        ] %}
+        {% for key, icon, label, info in bbm_items %}
+        <div class="bbm-item {{ 'available' if info.tersedia else 'unavailable' }}">
+          <span class="bbm-icon">{{ icon }}</span>
+          <div class="bbm-dot {{ 'dot-green' if info.tersedia else 'dot-red' }}"></div>
+          <span class="bbm-name">{{ label }}</span>
+          <span class="bbm-stok">{{ info.stok }}</span>
+          <span class="status-pill {{ 'pill-ok' if info.tersedia else 'pill-no' }}">
+            {{ '✓ Ada' if info.tersedia else '✗ Habis' }}
+          </span>
+          <span class="bbm-time">{{ info.updated }}</span>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+
+  <div class="legend">
+    <span class="legend-title">Keterangan:</span>
+    <div class="legend-item">
+      <div class="bbm-dot dot-green"></div>
+      <span>Tersedia / Ada stok</span>
+    </div>
+    <div class="legend-item">
+      <div class="bbm-dot dot-red"></div>
+      <span>Tidak tersedia / Habis</span>
+    </div>
+    <div class="legend-item">🔵 Pertalite</div>
+    <div class="legend-item">🟡 Pertamax</div>
+    <div class="legend-item">🟠 Solar</div>
+  </div>
+</div>
+
+<div class="refresh-bar">
+  <div class="refresh-dot"></div>
+  <span>Halaman aktif — <span id="clock"></span></span>
+</div>
+
+<script>
+  function updateClock() {
+    const now = new Date();
+    document.getElementById('clock').textContent =
+      now.toLocaleTimeString('id-ID', {hour:'2-digit',minute:'2-digit',second:'2-digit'});
+  }
+  updateClock();
+  setInterval(updateClock, 1000);
+
+  // Auto-refresh every 60 seconds
+  setTimeout(() => location.reload(), 60000);
+</script>
+</body>
+</html>
