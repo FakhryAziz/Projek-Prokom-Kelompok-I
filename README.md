@@ -2,7 +2,7 @@
 
 Tugas Projek Pemrograman Komputer Tentang Pembuatan Aplikasi Ketersediaan BBM di sekitar Universitas Diponegoro
 Kelompok I
-```bash
+
 LATAR BELAKANG MASALAH INI:
 Masalah ketersediaan BBM ini terasa sangat krusial di kawasan sekitar kampus UNDIP Tembalang yang memiliki kepadatan kendaraan sangat tinggi. SPBU di area ini sering kali mengalami kekosongan stok pada jam-jam sibuk akibat tingginya konsumsi dari ribuan mahasiswa dan warga lokal. Ketidakpastian informasi mengenai stok yang tersedia membuat banyak pengendara terjebak dalam antrean panjang yang sia-sia karena BBM habis sebelum giliran mereka
 
