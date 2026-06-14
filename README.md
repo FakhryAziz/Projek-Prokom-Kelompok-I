@@ -20,6 +20,8 @@ Fakhry Azizsatryo (21110125140155)
 
 Firman Satria Wahyudi (21110125140173)
 
+Link video YouTube:
+
 ## Menjalankan lokal
 
 ```bash
